@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>C2 Terminal</title></head>
+<body>
+<h2>WebSocket C2</h2>
+<textarea id="cmd" rows="3" style="width:100%"></textarea>
+<button onclick="send()">Send</button>
+<pre id="log" style="white-space:pre-wrap; background:#eee; padding:10px; height:300px; overflow:auto;"></pre>
+<script>
+const socket = new WebSocket("wss://TWOJ_WEBSOCKET_SERVER");
+
+socket.onmessage = e => {
+  document.getElementById("log").textContent += e.data + "\n";
+};
+
+function send() {
+  const val = document.getElementById("cmd").value;
+  socket.send(val);
+  document.getElementById("cmd").value = "";
+}
+</script>
+</body>
+</html>
